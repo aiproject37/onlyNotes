@@ -126,7 +126,7 @@ This project is open-source and available under the [MIT License](LICENSE).
 ---
 
 ## 📬 Support
-If you encounter any issues or have questions, feel free to open an issue or contact us at [your-email@example.com](mailto:your-email@example.com).
+If you encounter any issues or have questions, feel free to open an issue.
 
 ---
 
