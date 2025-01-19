@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -9,7 +8,7 @@ const axiosInstance = axios.create({
   });
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()
@@ -23,12 +22,12 @@ const LoginPage = () => {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/user/login/", {
+      const response = await axiosInstance.post("/user/login/", {
         email,
         password,
       });
 
-      console.log(response.data); // Log the response for debugging
+      console.log(response.data); 
 
       const { access } = response.data;
 
@@ -120,19 +119,7 @@ const LoginPage = () => {
                              focus:ring-black transition-all duration-200"
                     required
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 
-                             hover:text-gray-700 focus:outline-none"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
-                  </button>
+                  
                 </div>
               </div>
 
