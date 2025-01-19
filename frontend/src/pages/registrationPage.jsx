@@ -10,50 +10,49 @@ const axiosInstance = axios.create({
 const RegisterPage = () => {
   const [showPassword] = useState(false);
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [name, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [tc, setTc] = useState(false); // Terms and Conditions
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(''); // Added success state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password || !password2 || !tc || !username) {
-      setError("Please fill all fields and accept the terms and conditions.");
+    // Basic validation
+    if (!email || !name || !tc || !password || !password2) {
+      setError("Please fill in all fields and agree to the terms.");
       return;
     }
 
     if (password !== password2) {
-      setError("Passwords do not match.");
+      setError("Passwords must match.");
       return;
     }
 
     try {
       const response = await axiosInstance.post("/user/register/", {
         email,
+        name,
+        tc,
         password,
         password2,
-        tc,
-        username,
       });
 
       console.log(response.data); // Log the response for debugging
+      setError(''); // Clear any existing errors
+      setSuccess("Registration successful! Redirecting to login...");
 
-      const { access } = response.data;
-
-      if (access) {
-        localStorage.setItem("jwtToken", access);
-        navigate("/home");
-      } else {
-        setError("Some unknown error occurred.");
-      }
+      // Redirect to login page after a delay
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       console.error("Registration failed:", err.response || err);
+      setSuccess(''); // Clear any existing success message
       setError(
-        err.response?.data?.errors?.non_field_errors?.[0] ||
-        "Invalid registration details."
+        err.response?.data?.detail ||
+        "Registration failed. Please ensure all fields are correct."
       );
     }
   };
@@ -62,6 +61,7 @@ const RegisterPage = () => {
     <main className="min-h-screen bg-white">
       <div className="flex flex-col lg:flex-row min-h-screen">
         <section className="relative bg-black lg:w-2/5 p-6 lg:p-12 text-gray-500">
+          {/* Left section content remains the same */}
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto">
             <div className="w-full max-w-md mb-6 lg:mb-8">
               <img
@@ -95,8 +95,13 @@ const RegisterPage = () => {
             {error && (
               <p className="text-red-500 text-center mb-4">{error}</p>
             )}
+            
+            {success && (
+              <p className="text-green-500 text-center mb-4">{success}</p>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Rest of the form content remains the same */}
               <div className="relative">
                 <label
                   htmlFor="email"
@@ -111,7 +116,7 @@ const RegisterPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="user@example.com"
                   className="w-full p-4 border-2 border-black rounded-xl text-gray-800 text-base lg:text-lg 
-                           placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                           placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 
                            focus:ring-black transition-all duration-200 font-['Rethink_Sans']"
                   required
                 />
@@ -119,19 +124,19 @@ const RegisterPage = () => {
 
               <div className="relative">
                 <label
-                  htmlFor="username"
+                  htmlFor="name"
                   className="block text-sm font-medium font-['Rethink_Sans'] text-gray-700 mb-1"
                 >
                   Username
                 </label>
                 <input
                   type="text"
-                  id="username"
-                  value={username}
+                  id="name"
+                  value={name}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="user123"
+                  placeholder="eg: user123"
                   className="w-full p-4 border-2 border-black rounded-xl text-gray-800 text-base lg:text-lg 
-                           placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                           placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 
                            focus:ring-black transition-all duration-200 font-['Rethink_Sans']"
                   required
                 />
@@ -150,13 +155,12 @@ const RegisterPage = () => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
+                    placeholder="Choose a strong password"
                     className="w-full p-4 font-['Rethink_Sans'] border-2 border-black rounded-xl text-gray-800 text-base lg:text-lg 
-                             placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                             placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 
                              focus:ring-black transition-all duration-200"
                     required
                   />
-                  
                 </div>
               </div>
 
@@ -175,7 +179,7 @@ const RegisterPage = () => {
                     onChange={(e) => setPassword2(e.target.value)}
                     placeholder="Confirm Password"
                     className="w-full p-4 font-['Rethink_Sans'] border-2 border-black rounded-xl text-gray-800 text-base lg:text-lg 
-                             placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                             placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 
                              focus:ring-black transition-all duration-200"
                     required
                   />

@@ -94,7 +94,7 @@ const LoginPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="user@example.com"
                   className="w-full p-4 border-2 border-black rounded-xl text-gray-800 text-base lg:text-lg 
-                           placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                           placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 
                            focus:ring-black transition-all duration-200 font-['Rethink_Sans']"
                   required
                 />
@@ -115,7 +115,7 @@ const LoginPage = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
                     className="w-full p-4 font-['Rethink_Sans'] border-2 border-black rounded-xl text-gray-800 text-base lg:text-lg 
-                             placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                             placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 
                              focus:ring-black transition-all duration-200"
                     required
                   />
