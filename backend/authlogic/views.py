@@ -9,7 +9,10 @@ from .serializers import LoginSerializer
 from django.conf import settings
 from authlogic.serializers import RegistrationSerializer, LoginSerializer
 from django.contrib.auth import authenticate
-
+from .models import User
+from django.core.cache import cache
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
@@ -120,3 +123,72 @@ class LogoutView(APIView):
         )
         
         return response
+    
+class SendOTPView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({'error': 'Email is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        otp = get_random_string(length=6, allowed_chars='0123456789')  # Generate a 6-digit OTP
+        cache.set(f"otp_{email}", otp, timeout=120)  # Store OTP in cache for 2 minutes
+
+        # Send OTP via email
+        send_mail(
+            'Your OTP for Password Reset',
+            f'Your OTP is {otp}. It expires in 2 minutes.',
+            'noreply@example.com',
+            [email],
+            fail_silently=False,
+        )
+
+        return Response({'message': 'OTP sent successfully to your email.'}, status=status.HTTP_200_OK)
+
+
+# Step 2: Verify OTP
+class VerifyOTPView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        otp = request.data.get('otp')
+
+        if not email or not otp:
+            return Response({'error': 'Email and OTP are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cached_otp = cache.get(f"otp_{email}")
+
+        if cached_otp is None:
+            return Response({'error': 'OTP expired. Please request a new one.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if cached_otp != otp:
+            return Response({'error': 'Invalid OTP.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        cache.delete(f"otp_{email}")  # Clear the OTP after successful verification
+        return Response({'message': 'OTP verified successfully.'}, status=status.HTTP_200_OK)
+    
+# Step 3: Reset Password
+class ResetPasswordView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        new_password = request.data.get('new_password')
+        confirm_password = request.data.get('confirm_password')
+
+        if not email or not new_password or not confirm_password:
+            return Response({'error': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if new_password != confirm_password:
+            return Response({'error': 'Passwords do not match.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({'message': 'Password reset successfully.'}, status=status.HTTP_200_OK)
