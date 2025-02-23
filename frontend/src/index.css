@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;700&display=swap');
+@import "highlight.js/styles/default.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,4 +8,163 @@
 
 body {
   @apply font-sans;
+}
+
+
+/* Remove outline when editor is focused */
+.tiptap:focus {
+  outline: none;
+}
+
+/* Ensure Headings and Lists Are Styled Correctly */
+.prose h1, .prose h2, .prose h3 {
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h1 { font-size: 2rem; }
+.prose h2 { font-size: 1.5rem; }
+.prose h3 { font-size: 1.25rem; }
+
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.prose ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem;
+}
+
+/* Prevent CSS Resets from Removing List Styles */
+ul, ol {
+  list-style: initial !important;
+}
+
+/* Force Blockquote Styles */
+.prose blockquote, blockquote {
+  font-style: italic;
+  border-left: 4px solid #ccc !important;
+  padding-left: 1rem;
+  margin-left: 0;
+  color: #555;
+}
+
+/* styles.css */
+pre {
+  @apply bg-gray-900 text-white p-4 rounded-md overflow-x-auto;
+}
+code {
+  @apply text-sm font-mono;
+}
+
+
+/* Custom Syntax Highlighting Styles */
+.hljs {
+  background: #1e1e1e; /* Dark background for code blocks */
+  color: #dcdcdc; /* Light text color */
+  padding: 1rem;
+  border-radius: 4px;
+  font-family: "Fira Code", monospace; /* Optional: Use a monospace font */
+}
+
+/* Shared Styles Across Languages */
+.hljs-keyword {
+  color: #569cd6; /* Blue for keywords */
+}
+
+.hljs-string {
+  color: #ce9178; /* Orange for strings */
+}
+
+.hljs-comment {
+  color: #6a9955; /* Green for comments */
+}
+
+.hljs-title {
+  color: #4ec9b0; /* Teal for titles (e.g., class names, function names) */
+}
+
+.hljs-params {
+  color: #9cdcfe; /* Light blue for parameters */
+}
+
+.hljs-built_in {
+  color: #4ec9b0; /* Teal for built-in functions */
+}
+
+/* JavaScript-Specific Styles */
+.hljs-function {
+  color: #dcdcaa; /* Yellow for functions */
+}
+
+/* Python-Specific Styles */
+.hljs-meta.python {
+  color: #569cd6; /* Blue for Python decorators */
+}
+
+.hljs-number.python {
+  color: #b5cea8; /* Light green for numbers */
+}
+
+.hljs-built_in.python {
+  color: #4ec9b0; /* Teal for Python built-ins */
+}
+
+/* HTML-Specific Styles */
+.hljs-tag {
+  color: #569cd6; /* Blue for HTML tags */
+}
+
+.hljs-name {
+  color: #569cd6; /* Blue for tag names */
+}
+
+.hljs-attr {
+  color: #9cdcfe; /* Light blue for HTML attributes */
+}
+
+.hljs-string.html {
+  color: #ce9178; /* Orange for attribute values */
+}
+
+/* CSS-Specific Styles */
+.hljs-selector-class {
+  color: #d7ba7d; /* Yellow for CSS class selectors */
+}
+
+.hljs-selector-tag {
+  color: #569cd6; /* Blue for CSS tag selectors */
+}
+
+.hljs-attribute {
+  color: #9cdcfe; /* Light blue for CSS properties */
+}
+
+.hljs-number.css {
+  color: #b5cea8; /* Light green for CSS numbers */
+}
+
+.hljs-built_in.css {
+  color: #4ec9b0; /* Teal for CSS built-ins */
+}
+
+/* Custom Placeholder Styles */
+.ProseMirror p.is-empty::before {
+  content: attr(data-placeholder);
+  color: #6b7280; /* Gray-500 color */
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.scrollbar-hide {
+  scrollbar-width: none;
 }

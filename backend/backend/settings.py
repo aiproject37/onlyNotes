@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5175",  # React app running locally
+    "http://localhost:5179",  # React app running locally
 ]
 
 CORS_ALLOW_CREDENTIALS = True
