@@ -46,12 +46,17 @@ Follow these steps to clone, set up, and run the project locally.
 1. Navigate to the backend folder:
    ```bash
    cd ../backend
+   pip install django
+   pip install djangorestframework
+   pip install djangorestframework-simplejwt
+   pip install django-cors-headers
+
    ```
 
 2. Set up a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   "venv\Scripts\activate"  # On Windows: venv\Scripts\activate
    ```
 
 3. Install dependencies:
