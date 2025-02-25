@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Navigation hook
-import { UserCircle, Search, LogOut } from "lucide-react";
+import { UserCircle, LogOut } from "lucide-react";
 import axios from "axios";
 import Editor from "../components/editor"; // Editor Component
 import Sidebar from "../components/sidebar"; // Sidebar Component
@@ -8,31 +8,18 @@ import Sidebar from "../components/sidebar"; // Sidebar Component
 const HomePage = () => {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
   const [user, setUser] = useState({ username: "", email: "" });
   const [profileOpen, setProfileOpen] = useState(false); // Toggle Profile Section
+ 
   const token = localStorage.getItem("jwtToken");
   const headers = {
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   };
 
-  const handleSaveNote = async (noteData) => {
-    try {
-      if (selectedFile) {
-        await axios.put(`http://127.0.0.1:8000/api/notes/${selectedFile.id}/`, noteData, { headers });
 
-      } else {
-        const response = await axios.post("http://127.0.0.1:8000/api/notes/", noteData, { headers });
-        setSelectedFile(response.data); // Set new note after creation
-      }
-      fetchNotes();
-    } catch (error) {
-      console.error("Error saving note:", error);
-    }
-  };
-  
-  
+  // Fetch User Data
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/user/details/", {
@@ -57,13 +44,13 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
     if (token) {
       fetchUserData(token);
       fetchNotes();
     }
   }, [navigate]);
 
+  // Handle Logout
   const handleLogout = async () => {
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/user/logout/");
@@ -80,6 +67,7 @@ const HomePage = () => {
     }
   };
 
+  // Fetch Notes
   const fetchNotes = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/notes/", { headers });
@@ -93,6 +81,7 @@ const HomePage = () => {
     }
   };
 
+  // Handle Add Note
   const handleAddNote = async () => {
     try {
       const newNote = { 
@@ -109,6 +98,7 @@ const HomePage = () => {
     }
   };
 
+  // Handle Update Note
   const handleUpdateNote = async (id, updatedContent) => {
     try {
       await axios.put(`http://127.0.0.1:8000/api/notes/${id}/`, updatedContent, { headers });
@@ -118,6 +108,7 @@ const HomePage = () => {
     }
   };
   
+  // Handle Delete Note
   const handleDeleteNote = async (id) => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/notes/${id}/`, { headers });
@@ -129,7 +120,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 text-gray-800 font-rethink-sans text-lg">
       {/* Sidebar */}
       <Sidebar
         files={files}
@@ -139,42 +130,44 @@ const HomePage = () => {
         onSelectFile={setSelectedFile}
         onAddNote={handleAddNote}
         onDeleteNote={handleDeleteNote}
+        
       />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-800">onlyNotes</h1>
+        <header className= "bg-white shadow-sm px-6 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold">onlyNotes</h1>
+
+          <span className="font-bold text-gray-400 text-lg">{selectedFile.title}</span>
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            {/* Search Bar */}
-            
+           
 
             {/* Profile Button */}
-            <button onClick={() => setProfileOpen(!profileOpen)} className="p-2 rounded-full bg-gray-200">
-              <UserCircle className="text-gray-600 h-8 w-8" />
+            <button onClick={() => setProfileOpen(!profileOpen)} className="p-2 rounded-full hover:bg-gray-200">
+              <UserCircle className="h-8 w-8 text-gray-600" />
             </button>
           </div>
         </header>
 
         {/* Content Area */}
-        <div className="flex flex-1">
+        <div className="flex flex-1 overflow-hidden">
           {/* Note Editor (Middle Section) */}
-          <div className="flex-1 p-4">
-        {selectedFile ? (
-          <Editor  key={selectedFile.id} file={selectedFile}  onUpdateContent={handleUpdateNote} />
-        ) : (
-          <p className="text-gray-500">Select a file to start editing...</p>
-        )}
-      </div>
+          <div className="flex-1 p-6 overflow-y-auto">
+            {selectedFile ? (
+              <Editor key={selectedFile.id} file={selectedFile} onUpdateContent={handleUpdateNote} />
+            ) : (
+              <p className="text-center text-gray-500">Select a file to start editing...</p>
+            )}
+          </div>
 
           {/* Profile Section (Right Side) */}
           {profileOpen && (
-            <div className="w-64 bg-white shadow-md p-6 absolute right-0 top-16">
+            <div className="w-64  bg-white shadow-md p-6 border-l  border-gray-200">
               <div className="flex items-center gap-4">
-                <div className="h-16 w-16 rounded-full  flex items-center justify-center">
+                <div className="h-16 w-16 rounded-full flex items-center justify-center">
                   <UserCircle className="h-10 w-10 text-blue-600" />
                 </div>
                 <div>
@@ -190,7 +183,6 @@ const HomePage = () => {
                 <LogOut size={20} />
                 Logout
               </button>
-              
             </div>
           )}
         </div>

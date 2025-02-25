@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { File, Plus, Trash2, Edit3 } from "lucide-react";
+import axios from "axios";
 
-const Sidebar = ({ files, setFiles, selectedFile, setSelectedFile, onSelectFile, onAddNote, onDeleteNote }) => {
+const Sidebar = ({ files, setFiles, selectedFile, onSelectFile, onAddNote, onDeleteNote }) => {
   const [renaming, setRenaming] = useState(null);
   const [inputValue, setInputValue] = useState("");
   
@@ -17,11 +18,11 @@ const Sidebar = ({ files, setFiles, selectedFile, setSelectedFile, onSelectFile,
   const saveRename = async (id) => {
     if (!inputValue.trim()) return;
     try {
-      await fetch(`http://127.0.0.1:8000/api/notes/${id}/`, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify({ title: inputValue }),
-      });
+      await axios.put(
+        `http://127.0.0.1:8000/api/notes/${id}/`,
+        { title: inputValue }, 
+        { headers }
+      );
       setFiles((prev) =>
         prev.map((file) => (file.id === id ? { ...file, title: inputValue } : file))
       );
@@ -32,7 +33,7 @@ const Sidebar = ({ files, setFiles, selectedFile, setSelectedFile, onSelectFile,
   };
 
   return (
-    <div className="w-80 h-screen bg-gray-50 border-r flex flex-col">
+    <div className="w-80 h-screen font-rethink-sans bg-gray-50 border-r flex flex-col">
       {/* Sidebar Header */}
       <div className="flex justify-between items-center p-4 border-b">
         <span className="text-xl font-bold text-gray-800">Private Notes</span>

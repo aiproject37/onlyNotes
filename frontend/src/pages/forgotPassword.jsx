@@ -144,7 +144,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white font-rethink-sans">
       <div className="flex flex-col lg:flex-row min-h-screen">
         {/* Left Side Section */}
         <section className="relative bg-black lg:w-2/5 p-6 lg:p-12 text-gray-500">

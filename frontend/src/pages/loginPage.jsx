@@ -46,7 +46,7 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen font-rethink-sans bg-white">
       <div className="flex flex-col lg:flex-row min-h-screen">
         <section className="relative bg-black lg:w-2/5 p-6 lg:p-12 text-gray-500">
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto">
