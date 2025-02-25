@@ -139,14 +139,14 @@ const HomePage = () => {
         <header className= "bg-white shadow-sm px-6 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold">onlyNotes</h1>
 
-          <span className="font-bold text-gray-400 text-lg">{selectedFile.title}</span>
+          <span className="font-bold text-gray-400 text-lg">{selectedFile ? selectedFile.title:'No file selected'}</span>
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
            
 
             {/* Profile Button */}
-            <button onClick={() => setProfileOpen(!profileOpen)} className="p-2 rounded-full hover:bg-gray-200">
+            <button onClick={() => setProfileOpen(!profileOpen)} className="flex gap-1 items-center border border-gray- p-2 rounded-full hover:bg-gray-200">Profile
               <UserCircle className="h-8 w-8 text-gray-600" />
             </button>
           </div>
