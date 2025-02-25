@@ -136,4 +136,4 @@ If you encounter any issues or have questions, feel free to open an issue.
 ---
 
 ## 🌟 Acknowledgments
-Special thanks to all project members.
+Special thanks to all the project members.
