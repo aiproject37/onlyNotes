@@ -11,5 +11,8 @@ export default {
       },
     },
   },
+  corePlugins: {
+    preflight: true, // Ensures base styles apply correctly
+  },
   plugins: [],
 }
