@@ -60,6 +60,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:5174"]
 
+
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = "backend.urls"
 # settings.py
