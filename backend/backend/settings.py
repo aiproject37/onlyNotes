@@ -46,6 +46,9 @@ REST_FRAMEWORK = {
     )
    
 }
+CSRF_TRUSTED_ORIGINS={
+    "https://onlynotes.up.railway.app"
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
