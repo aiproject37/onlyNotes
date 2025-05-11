@@ -3,5 +3,5 @@ Django
 djangorestframework
 djangorestframework_simplejwt
 gunicorn
-pyscopg2-binary
+psycopg2-binary
 whitenoise
