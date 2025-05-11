@@ -1,4 +1,7 @@
-dj_database_url==2.3.0
-Django==5.1.5
-djangorestframework==3.15.2
-djangorestframework_simplejwt==5.4.0
+dj_database_url
+Django
+djangorestframework
+djangorestframework_simplejwt
+gunicorn
+pyscopg2binary
+whitenoise
