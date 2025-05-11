@@ -19,7 +19,7 @@ SECRET_KEY = "django-insecure-g52n#idg@3mf@^@(ep1gsw42ny^j%q3i5gy$1k7l=j-(k)*m*z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://onlynotes.up.railway.app"]
 
 
 # Application definition

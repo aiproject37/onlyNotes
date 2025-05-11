@@ -22,7 +22,7 @@ const HomePage = () => {
   // Fetch User Data
   const fetchUserData = async (token) => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/user/details/", {
+      const response = await axios.get("https://onlynotes.up.railway.app/api/user/details/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -53,7 +53,7 @@ const HomePage = () => {
   // Handle Logout
   const handleLogout = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/user/logout/");
+      const response = await axios.post("https://onlynotes.up.railway.app/api/user/logout/");
 
       if (response.status === 200) {
         localStorage.removeItem("jwtToken");
@@ -70,7 +70,7 @@ const HomePage = () => {
   // Fetch Notes
   const fetchNotes = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/notes/", { headers });
+      const response = await axios.get("https://onlynotes.up.railway.app/api/notes/", { headers });
       setFiles(response.data);
     } catch (error) {
       if (error.response?.status === 401) {
@@ -89,7 +89,7 @@ const HomePage = () => {
         content: "",
         user: user // Fetch userId from localStorage or state if needed
       };
-      const response = await axios.post("http://127.0.0.1:8000/api/notes/", newNote, { headers });
+      const response = await axios.post("https://onlynotes.up.railway.app/api/notes/", newNote, { headers });
       setFiles([...files, response.data]);
       setSelectedFile(response.data);
     } catch (error) {
@@ -101,7 +101,7 @@ const HomePage = () => {
   // Handle Update Note
   const handleUpdateNote = async (id, updatedContent) => {
     try {
-      await axios.put(`http://127.0.0.1:8000/api/notes/${id}/`, updatedContent, { headers });
+      await axios.put(`https://onlynotes.up.railway.app/api/notes/${id}/`, updatedContent, { headers });
       fetchNotes();  // Re-fetch the latest notes
     } catch (error) {
       console.error("Error updating note:", error);
@@ -111,7 +111,7 @@ const HomePage = () => {
   // Handle Delete Note
   const handleDeleteNote = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/notes/${id}/`, { headers });
+      await axios.delete(`https://onlynotes.up.railway.app/api/notes/${id}/`, { headers });
       setFiles((prev) => prev.filter((file) => file.id !== id));
       if (selectedFile?.id === id) setSelectedFile(null);
     } catch (error) {

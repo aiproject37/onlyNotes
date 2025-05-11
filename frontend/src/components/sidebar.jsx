@@ -19,7 +19,7 @@ const Sidebar = ({ files, setFiles, selectedFile, onSelectFile, onAddNote, onDel
     if (!inputValue.trim()) return;
     try {
       await axios.put(
-        `http://127.0.0.1:8000/api/notes/${id}/`,
+        `https://onlynotes.up.railway.app/api/notes/${id}/`,
         { title: inputValue }, 
         { headers }
       );

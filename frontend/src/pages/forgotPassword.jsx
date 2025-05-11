@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   const axiosInstance = axios.create({
-    baseURL: "http://127.0.0.1:8000/api",
+    baseURL: "https://onlynotes.up.railway.app/api",
     withCredentials: true, 
   });
 
